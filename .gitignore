@@ -1,0 +1,31 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+/auth-center-provider/mvnw
+/auth-center-provider/.mvn/
+/gateway/.mvn/
+Spring-Zuul/
+elasticJobDemo/target/
+eureka/src/test/
+eureka/target/
+gateway-zuul/target/
+gateway/.gitignore
+gateway/.mvn/
+gateway/mvnw
+gateway/mvnw.cmd
+hello-service/target/
+hello-service1/target/
+monitor/.mvn/
+monitor/mvnw
+monitor/mvnw.cmd
+registration-center/.mvn/
+tools/.mvn/
+tools/mvnw
+tools/mvnw.cmd
+gateway/HELP.md

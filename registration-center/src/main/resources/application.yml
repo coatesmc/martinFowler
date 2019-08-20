@@ -1,0 +1,78 @@
+server:
+  port: 8073
+  connection-timeout: 180000
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1111/eureka/
+  instance:
+    health-check-url-path: /actuator/health   #应用实例的相对运行状况检查URL路径默认为 /info/health
+  zipkin:
+    base-url: http://localhost:9411
+
+spring:
+#  data:
+#    elasticsearch:
+#      cluster-name: my-application
+#      cluster-nodes: localhost:9300 # elasticsearch 调用地址，多个使用“,”隔开
+  application:
+    name: registration-center
+  datasource:
+    url: jdbc:mysql://118.190.210.198:3306/gateway?seUnicode=true&characterEncoding=utf8&serverTimezone=GMT
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  boot:
+    admin:
+      routes:
+        endpoints: env,metrics,trace,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,liquibase,heapdump,loggers,auditevents,hystrix.stream
+      client:
+        url: http://localhost:2222/admin   #指定SpringBootAdmin服务端地址
+        password: admin
+        username: admin
+        instance:
+          prefer-ip: true
+
+#mybatis
+mybatis-plus:
+  mapper-locations: classpath*:com.coates/registrationcenter/mapper/*/*.xml
+  executor-type: simple
+  type-aliases-package: com.coates.registrationcenter.entity
+  typeEnumsPackage: com.baomidou.springboot.entity.enums
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#mybatis-plus:
+#  mapper-locations: classpath*:com/registrationcenter/mapper/**/*Mapper.xml
+#  typeAliasesPackage: com.coates.registrationcenter.entity
+#  global-config:
+#    id-type: 0
+#    field-strategy: 2
+#    auto-set-db-type: true
+#    db-column-underline: true
+#    refresh-mapper: false
+#    metaObjectHandler: com.framework.core.handler.MyMetaObjectHandler
+#  configuration:
+#    map-underscore-to-camel-case: true
+#    cache-enabled: false
+
+jedis:
+  address: 127.0.0.1
+  port: 6379
+  auth:
+  maxIdle: 100
+  maxActive: 300
+  maxWait: 10000
+  testOnBorrow: true
+
+logging:
+  config: classpath:logback-spring.xml
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"   #暴露所有的端点我们可以看到更多的服务实例相关信息，
+  endpoint:
+    health:
+      show-details: ALWAYS   #health endpoint是否必须显示全部细节

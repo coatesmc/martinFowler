@@ -1,0 +1,73 @@
+server:
+  port: 2222
+  servlet:
+    context-path: /admin #配置上下文路径
+
+#服务名
+spring:
+  #配置登录名，密码和安全策略
+  profiles:
+    active: secure
+  security:
+    user:
+      name: admin
+      password: admin
+  application:
+    name: monitor
+  boot:
+    admin:
+      notify:
+        mail:
+          from: 2900359673@qq.com
+          to: 710306226@qq.com
+          #配置是否启用邮件通知 false是不起用
+          enabled: true
+          ignore-changes:
+            -
+              "*:UP"
+      routes:
+        endpoints: env,metrics,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,liquibase,heapdump,loggers,auditevents,hystrix.stream
+      turbine:
+        clusters: default
+        location: http://monitor:${turbine.stream.port}
+      client:
+        url: http://localhost:2222/admin
+        username: ${spring.security.user.name}
+        password: ${spring.security.user.password}
+  mail:
+    host: smtp.qq.com
+    username: 2900359673@qq.com
+    password: jtjbpvrqrczrdefb
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+turbine:
+  stream:
+    port: 8041
+  #端口
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'    #暴露actuator的所有端点
+  endpoint:
+    health:
+      show-details: always #health endpoint是否必须显示全部细节。默认情况下, /actuator/health 是公开的，并且不显示细节
+
+#注册中心
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 10
+    health-check-url-path: /admin/actuator/health
+    metadata-map:
+      user.name: ${spring.security.user.name}
+      user.password: ${spring.security.user.password}
+  client:
+    registry-fetch-interval-seconds: 5
+    serviceUrl:
+      defaultZone: http://localhost:1111/eureka
+

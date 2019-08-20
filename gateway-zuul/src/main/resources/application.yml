@@ -1,0 +1,68 @@
+server:
+  port: 8081
+  host:
+    connect-timeout-millis: 6000
+    socket-timeout-millis: 3000
+  zipkin:
+    base-url: http://localhost:9411
+spring:
+  application:
+    name: api-gateway
+  datasource:
+    url: jdbc:mysql://118.190.210.198:3306/gateway?seUnicode=true&characterEncoding=utf8&serverTimezone=GMT
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+    tomcat:
+      max-active: 20
+      max-idle: 8
+      min-idle: 8
+      initial-size: 10
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+
+
+jedis:
+  address: 127.0.0.1
+  port: 6379
+  auth:
+  maxIdle: 100
+  maxActive: 300
+  maxWait: 10000
+  testOnBorrow: true
+# \u6DFB\u52A0ribbon\u7684\u8D85\u65F6\u65F6\u95F4\u8BBE\u7F6E
+ribbon:
+  eureka:
+    enabled: false
+    #方法调用处理时间
+    ReadTimeout: 6000
+    #连接时间
+    ConnectTimeout: 60000
+    ##最大自动重试次数
+    maxAutoRetries: 1
+    ## 换实例重试次数
+    MaxAutoRetriesNextServer: 2
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeout-in-milliseconds: 6000
+#开启Hystrix
+feign:
+  hystrix:
+    enabled: true
+##限流服务
+zuul:
+  SendErrorFilter:
+    post:
+      disable: true
+logging:
+  config: classpath:logback-spring.xml
+
