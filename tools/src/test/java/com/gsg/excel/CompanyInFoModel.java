@@ -13,7 +13,7 @@ import java.math.BigDecimal;
  * @Date 2019/5/13 10:17
  * @Version 1.0
  **/
-@Data
+ @Data
 public class CompanyInFoModel extends BaseRowModel {
     @ExcelProperty(value ="单位名称", index=0)
     private String  companyName;

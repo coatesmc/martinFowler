@@ -7,13 +7,16 @@ import eu.bitwalker.useragentutils.OperatingSystem;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.zuul.filters.Route;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.scheduling.annotation.Async;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Executor;
 
 /**
  * @ClassName LogSave
@@ -25,7 +28,12 @@ import java.util.Set;
 public class LogSave {
     private static Logger logger = LoggerFactory.getLogger(LogSave.class);
 
+    @Async("asyncServiceExecutor")
     public void add(JdbcTemplate jdbcTemplate, HttpServletRequest request, Route matchingRoute) {
+        addAsync(jdbcTemplate, request, matchingRoute);
+    }
+
+    public void addAsync(JdbcTemplate jdbcTemplate, HttpServletRequest request, Route matchingRoute) {
         Map<String, String[]> map = request.getParameterMap();
         Set<String> keys = map.keySet();
         StringBuffer para = new StringBuffer();
@@ -45,8 +53,8 @@ public class LogSave {
         Browser browser = userAgent.getBrowser(); //获取浏览器信息 
         OperatingSystem os = userAgent.getOperatingSystem(); //获取操作系统信息
         StringBuffer userInfo = new StringBuffer();
-        userInfo.append("操作系统："+os.toString()+" 浏览器："+browser.toString());
-        logger.info("this is os info --->[{}]",userInfo.toString());
+        userInfo.append("操作系统：" + os.toString() + " 浏览器：" + browser.toString());
+        logger.info("this is os info --->[{}]", userInfo.toString());
         log.setUserAgent(request.getHeader("User-Agent").toString());
         log.setRequestData(para.deleteCharAt(para.length() - 1).toString());
         log.setRequestIp(IpUtil.getRemortIP(request));
@@ -59,16 +67,16 @@ public class LogSave {
         String sql = "INSERT INTO `sys_interface_log` (`id`,`service_id`,`service_ip`,`software_environment`,`log_name`,`request_method`," +
                 "`request_interface`,`log_time`,`user_agent`,`request_data`,`request_ip`,`request_code`,`request_code_name`) VALUES  (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         Object args[] = {null, log.getServiceId(), log.getServiceIp(), log.getSoftwareEnvironment(), log.getLogName(), log.getRequestMethod(),
-                log.getRequestInterface(), log.getLogTime(), log.getUserAgent(),log.getRequestData(),log.getRequestIp(),null,null};
+                log.getRequestInterface(), log.getLogTime(), log.getUserAgent(), log.getRequestData(), log.getRequestIp(), null, null};
         try {
-            int temp = jdbcTemplate.update(sql,args);
+            int temp = jdbcTemplate.update(sql, args);
             if (temp > 0) {
                 logger.info("Inserted successfully");
             } else {
                 logger.info("Insert failed");
             }
         } catch (Exception e) {
-            logger.info("this is Error-->",e.getMessage());
+            logger.info("this is Error-->", e.getMessage());
             e.printStackTrace();
         }
     }

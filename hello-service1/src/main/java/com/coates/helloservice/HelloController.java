@@ -1,6 +1,5 @@
 package com.coates.helloservice;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,9 +12,9 @@ public class HelloController {
 
     public static Logger logger = LoggerFactory.getLogger(HelloController.class);
 
+
     @Value("${server.port}")
     String port;
-
 
     @RequestMapping(value = "/hello")
     public String Hello(@RequestParam String name) {
@@ -25,4 +24,15 @@ public class HelloController {
     }
 
 
+    @RequestMapping("/test")
+    public String submit() {
+        logger.info("start submit");
+
+        //调用service层的任务
+
+
+        logger.info("end submit");
+
+        return "success";
+    }
 }

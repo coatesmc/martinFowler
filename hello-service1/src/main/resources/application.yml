@@ -1,77 +1,77 @@
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:1111/eureka/
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:1111/eureka/
 server:
   port: 8072
 spring:
   application:
     name: order-service
-  datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-
-#数据源配置
-datasource:
-  default:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://172.16.30.215:3306/gateway?seUnicode=true&characterEncoding=utf8&serverTimezone=GMT
-    username: root
-    password: 123456
-    test-on-borrow: false
-    test-while-idle: true
-    time-between-eviction-runs-millis: 18800
-    filters: mergeStat,wall,slf4j
-    connectionProperties: druid.stat.slowSqlMillis=2000
-    validationQuery: SELECT 1
-    poolPreparedStatements: true
-  user:
-    master:
-      user1:
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://172.16.30.216:3306/gateway?seUnicode=true&characterEncoding=utf8&serverTimezone=GMT
-        username: root
-        password: 123456
-        test-on-borrow: false
-        test-while-idle: true
-        time-between-eviction-runs-millis: 18800
-        filters: mergeStat,wall,slf4j
-        connectionProperties: druid.stat.slowSqlMillis=2000
-        validationQuery: SELECT 1
-        poolPreparedStatements: true
-      user2:
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://172.16.30.217:3306/gateway?seUnicode=true&characterEncoding=utf8&serverTimezone=GMT
-        username: root
-        password: 123456
-        test-on-borrow: false
-        test-while-idle: true
-        time-between-eviction-runs-millis: 18800
-        filters: mergeStat,wall,slf4j
-        connectionProperties: druid.stat.slowSqlMillis=2000
-        validationQuery: SELECT 1
-        poolPreparedStatements: true
-  slave:
-    user1:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://172.16.30.216:3306/gateway_slave_1?seUnicode=true&characterEncoding=utf8&serverTimezone=GMT
-      username: root
-      password: 123456
-      test-on-borrow: false
-      test-while-idle: true
-      time-between-eviction-runs-millis: 18800
-      filters: mergeStat,wall,slf4j
-      connectionProperties: druid.stat.slowSqlMillis=2000
-      validationQuery: SELECT 1
-      poolPreparedStatements: true
-    user2:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://172.16.30.217:3306/gateway_slave_2?seUnicode=true&characterEncoding=utf8&serverTimezone=GMT
-      username: root
-      password: 123456
-      test-on-borrow: false
-      test-while-idle: true
-      time-between-eviction-runs-millis: 18800
-      filters: mergeStat,wall,slf4j
-      connectionProperties: druid.stat.slowSqlMillis=2000
-      validationQuery: SELECT 1
-      poolPreparedStatements: true
+#  datasource:
+#    type: com.alibaba.druid.pool.DruidDataSource
+#
+##数据源配置
+#datasource:
+#  default:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://172.16.30.215:3306/gateway?seUnicode=true&characterEncoding=utf8&serverTimezone=GMT
+#    username: root
+#    password: 123456
+#    test-on-borrow: false
+#    test-while-idle: true
+#    time-between-eviction-runs-millis: 18800
+#    filters: mergeStat,wall,slf4j
+#    connectionProperties: druid.stat.slowSqlMillis=2000
+#    validationQuery: SELECT 1
+#    poolPreparedStatements: true
+#  user:
+#    master:
+#      user1:
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        url: jdbc:mysql://172.16.30.216:3306/gateway?seUnicode=true&characterEncoding=utf8&serverTimezone=GMT
+#        username: root
+#        password: 123456
+#        test-on-borrow: false
+#        test-while-idle: true
+#        time-between-eviction-runs-millis: 18800
+#        filters: mergeStat,wall,slf4j
+#        connectionProperties: druid.stat.slowSqlMillis=2000
+#        validationQuery: SELECT 1
+#        poolPreparedStatements: true
+#      user2:
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        url: jdbc:mysql://172.16.30.217:3306/gateway?seUnicode=true&characterEncoding=utf8&serverTimezone=GMT
+#        username: root
+#        password: 123456
+#        test-on-borrow: false
+#        test-while-idle: true
+#        time-between-eviction-runs-millis: 18800
+#        filters: mergeStat,wall,slf4j
+#        connectionProperties: druid.stat.slowSqlMillis=2000
+#        validationQuery: SELECT 1
+#        poolPreparedStatements: true
+#  slave:
+#    user1:
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      url: jdbc:mysql://172.16.30.216:3306/gateway_slave_1?seUnicode=true&characterEncoding=utf8&serverTimezone=GMT
+#      username: root
+#      password: 123456
+#      test-on-borrow: false
+#      test-while-idle: true
+#      time-between-eviction-runs-millis: 18800
+#      filters: mergeStat,wall,slf4j
+#      connectionProperties: druid.stat.slowSqlMillis=2000
+#      validationQuery: SELECT 1
+#      poolPreparedStatements: true
+#    user2:
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      url: jdbc:mysql://172.16.30.217:3306/gateway_slave_2?seUnicode=true&characterEncoding=utf8&serverTimezone=GMT
+#      username: root
+#      password: 123456
+#      test-on-borrow: false
+#      test-while-idle: true
+#      time-between-eviction-runs-millis: 18800
+#      filters: mergeStat,wall,slf4j
+#      connectionProperties: druid.stat.slowSqlMillis=2000
+#      validationQuery: SELECT 1
+#      poolPreparedStatements: true

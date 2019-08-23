@@ -111,7 +111,7 @@ public class ElasticsearchClient {
 
         SearchRequest searchRequest = new SearchRequest();
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        searchSourceBuilder.query(QueryBuilders.termQuery("user", "kimchy0"));
+        searchSourceBuilder.query(QueryBuilders.termQuery("user", "kimchy"));
         searchRequest.source(searchSourceBuilder);
 
         SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
@@ -124,6 +124,7 @@ public class ElasticsearchClient {
             Map<String, Object> tmp = hit.getSourceAsMap();
             System.out.println("tmp = {" + tmp + "}");
         }
+
       /*
         SearchRequest searchRequest = new SearchRequest("posts");
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -138,7 +139,8 @@ public class ElasticsearchClient {
         for (SearchHit hit : searchHits) {
             Map<String, Object> tmp = hit.getSourceAsMap();
             System.out.println("tmp={" + tmp + "}");
-        }*/
+        }
+        */
     }
 
 
@@ -167,18 +169,18 @@ public class ElasticsearchClient {
             JSONObject source = new JSONObject();
             JSONObject indexPattern = new JSONObject();
             JSONObject json = new JSONObject();
-
+            String userName = "kimchy" + i;
             json.put("user", "kimchy" + i);
             json.put("postDate", DateUtils.getDateUtils().getTodayDate());
             json.put("message", "trying out Elasticsearch {" + i + "}");
 
-            indexPattern.put("title", "posts");
-            indexPattern.put("fields", json);
-            source.put("index-pattern", indexPattern);
+            json.put("title", userName);
+          /*  indexPattern.put("fields", json);
+            source.put("index-pattern", indexPattern);*/
             request.opType(DocWriteRequest.OpType.CREATE);
             request.opType("create");
 
-            request.source(source);
+            request.source(json);
 
             IndexResponse index = client.index(request, RequestOptions.DEFAULT);
             System.out.println(index);
