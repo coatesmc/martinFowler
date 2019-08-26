@@ -75,3 +75,7 @@ spring:
 #      connectionProperties: druid.stat.slowSqlMillis=2000
 #      validationQuery: SELECT 1
 #      poolPreparedStatements: true
+score-thread-pool:
+  core: 1
+  maximum: 2
+  queue: 5

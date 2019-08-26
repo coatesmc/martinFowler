@@ -25,9 +25,10 @@ import java.util.UUID;
 @Slf4j
 public class TestServiceImpl implements TestService {
 
-    @Transactional
+    @Override
+    // @Transactional(rollbackFor = Exception.class)
     public int test(int i) {
-        StopWatch stopWatch = new StopWatch();
+       /* StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         String lockKey = "";
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
@@ -43,13 +44,12 @@ public class TestServiceImpl implements TestService {
             log.debug("消费计时：拿到锁：uuid = {}, time = {}", uuid, stopWatch.toString());
 
             if (lock) {
-                log.debug("执行锁的内容: key = {}, uuid = {}", lockKey, uuid);
+                log.debug("执行锁的内容: key = {}, uuid = {}", lockKey, uuid);*/
 
-                Thread.sleep(1000);
-                log.info("int : 【{}】", i);
-            }
+        log.info("int : 【{}】", i);
+      /*      }
         } catch (InterruptedException e) {
-            log.error("异常", e);
+            log.error("异常:", e);
             // 配合Transactional手动让spring回滚
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         } finally {
@@ -59,7 +59,7 @@ public class TestServiceImpl implements TestService {
                 RedisTool.releaseDistributedLock(lockKey, uuid);
             }
             stopWatch.stop();
-        }
+        }*/
         return 0;
     }
 }

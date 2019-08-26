@@ -7,6 +7,7 @@ import com.coates.helloservice.service.TestService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.formula.functions.T;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -20,6 +21,7 @@ import java.util.concurrent.TimeUnit;
  * @Date 2019/8/23 16:59
  * @Version 1.0
  **/
+
 @Slf4j
 public class ExecutorManager {
 
@@ -48,7 +50,7 @@ public class ExecutorManager {
 
 
     static {
-        testService = (TestService) ApplicationContextHolder.getBean("scoreService");
+        testService = (TestService) ApplicationContextHolder.getBean("testService");
 
     }
 
@@ -131,9 +133,9 @@ public class ExecutorManager {
      * @return
      * @throws Exception
      */
-    public boolean exchange(final int i) throws Exception {
+    public boolean exchange(final int num) throws Exception {
         CACHE_POOL.execute(() -> {
-            int code = this.testService.test(i);
+            int code = this.testService.test(num);
             if (code == 0) {
                 log.info("处理成功：scoreUserId:{}  token:{}",code);
             } else if (code == 1704) {
@@ -141,14 +143,14 @@ public class ExecutorManager {
                     try {
                         log.info("为获取到用户锁，启动重试机制为3次,当前次数为：{}  重试休眠时间为：{}", i,i);
                         Thread.sleep(i*1000);
-                        code = this.testService.test(i);
+                        code = this.testService.test(num);
                         if (code == 0) {
-                            log.info("为获取到用户锁，启动重试机制为3次,当前次数为：{}  重试休眠时间为：{}", i,i)；
+                            log.info("为获取到用户锁，启动重试机制为3次,当前次数为：{}  重试休眠时间为：{}", i,i);
                             break;
                         }
                         if (i == 2) {
-                            log.info("请求错误，添加日志");
-                            //setErrorLogInfo(i, code);
+                            log.info("请求错误");
+                            //setErrorLogInfo(num, code);
                         }
                     } catch (InterruptedException e) {
                         log.error("睡眠中断异常 {}", e.getMessage());
