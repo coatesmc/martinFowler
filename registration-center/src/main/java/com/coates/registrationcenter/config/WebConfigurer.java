@@ -1,7 +1,6 @@
 package com.coates.registrationcenter.config;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
 import com.coates.tools.cache.JedisConfig;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
@@ -12,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -30,6 +30,7 @@ import java.io.IOException;
  * @Date 2019/4/28 10:08
  * @Version 1.0
  **/
+@EnableTransactionManagement
 @Configuration
 @ComponentScan(basePackages = "com.coates.registrationcenter")
 @MapperScan("com.coates.registrationcenter.dao*")
@@ -97,9 +98,9 @@ public class WebConfigurer extends WebMvcConfigurationSupport {
     /**
      * mybatis-plus SQL执行效率插件【生产环境可以关闭】
      */
-    @Bean
+ /*   @Bean
+    @Profile({"dev","test"})// 设置 dev test 环境开启
     public PerformanceInterceptor performanceInterceptor() {
         return new PerformanceInterceptor();
-    }
-
+    }*/
 }

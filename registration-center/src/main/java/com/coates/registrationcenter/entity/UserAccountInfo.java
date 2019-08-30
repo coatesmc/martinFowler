@@ -1,15 +1,12 @@
 package com.coates.registrationcenter.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -62,6 +59,7 @@ public class UserAccountInfo implements Serializable {
      * 注册时间
      */
     @JsonProperty("reg_time")
+    @TableField(fill =FieldFill.INSERT)
     private Date regTime;
 
     /**
@@ -80,12 +78,14 @@ public class UserAccountInfo implements Serializable {
      * 最后登录IP
      */
     @JsonProperty("last_login_ip")
+
     private String lastLoginIp;
 
     /**
      * 更新时间
      */
     @JsonProperty("update_time")
+    @TableField(fill =FieldFill.INSERT_UPDATE)
     private Date updateTime;
 
     /**
@@ -106,4 +106,7 @@ public class UserAccountInfo implements Serializable {
     @JsonProperty("token")
     private String token;
 
+    @TableLogic
+    @TableField(select = false)
+    private Integer deleted;
 }

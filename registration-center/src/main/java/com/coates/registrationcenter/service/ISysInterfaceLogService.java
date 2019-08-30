@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author jobob
  * @since 2019-05-31
  */
-public interface ISysInterfaceLogService extends IService<SysInterfaceLog> {
+public interface ISysInterfaceLogService  extends IService<SysInterfaceLog> {
 
 }
