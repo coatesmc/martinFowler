@@ -1,9 +1,7 @@
 package com.coates.registrationcenter;
 
 import com.baomidou.mybatisplus.core.incrementer.IKeyGenerator;
-import com.baomidou.mybatisplus.core.injector.ISqlInjector;
 import com.baomidou.mybatisplus.extension.incrementer.H2KeyGenerator;
-import com.baomidou.mybatisplus.extension.injector.LogicSqlInjector;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import org.springframework.boot.SpringApplication;
@@ -34,10 +32,12 @@ public class RegistrationCenterApplication {
     /**
      * 注入sql注入器
      */
+/*
     @Bean
     public ISqlInjector sqlInjector(){
         return new LogicSqlInjector();
     }
+*/
 
     /**接口中，自动转换的有：驼峰转换为下划线，空值输出null*/
     @Bean
