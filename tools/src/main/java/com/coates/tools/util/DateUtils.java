@@ -2,6 +2,10 @@ package com.coates.tools.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.MonthDay;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -297,4 +301,132 @@ public class DateUtils {
             return sdf.parse(strDate);
         }
     }
+
+    private static String YYYYMMDDHHMMSS = "yyyy-MM-dd HH:mm:ss";
+    private static String YYYYMMDD = "yyyy-MM-dd";
+    private static String YYYYMM = "yyyy-MM";
+
+
+    /**
+     * 获取到当前日期
+     *
+     * @return YYYY-MM-DD
+     */
+    public static String getCurrentDay() {
+        LocalDate todayDate = LocalDate.now();
+        System.out.println("今天的日期：" + todayDate);
+        return todayDate.toString();
+    }
+
+
+    /**
+     * 获取到当前的
+     * @param type 是否显示毫秒 true 显示 fasle 不显示
+     * @return HH:mm:ss
+     */
+    public static String getCurrentTime(boolean type) {
+        LocalTime nowTime = type == true ? LocalTime.now() : LocalTime.now().withNano(0);
+        System.out.println("今天的日期：" + nowTime);
+        return nowTime.toString();
+    }
+
+    /**
+     * 获取当前或者提前n小时
+     * @param type 是否显示毫秒 true 显示 fasle 不显示
+     * @param number 当前时间增加N小时
+     * @return HH:mm:ss
+     */
+
+    public static String getCurrentTime(boolean type,int number) {
+        LocalTime nowTime = type == true ? LocalTime.now().plusHours(number) : LocalTime.now().plusHours(number).withNano(0);
+        System.out.println("今天的日期：" + nowTime);
+        return nowTime.toString();
+    }
+
+
+    /**
+     * 获取本月第一天
+     *
+     * @return YYYY-MM-DD
+     */
+    public static String getFirstDay() {
+        LocalDate todayDate = LocalDate.now();
+        //取2016年10月的第1天
+        LocalDate firstDay = todayDate.with(TemporalAdjusters.firstDayOfMonth());
+        System.out.println(firstDay);
+        return firstDay.toString();
+    }
+
+    /**
+     * 获取本月第一天
+     *
+     * @return YYYY-MM-DD
+     */
+    public static String getLastDay() {
+        LocalDate todayDate = LocalDate.now();
+        //取2016年10月的第1天
+        LocalDate firstDay = todayDate.with(TemporalAdjusters.lastDayOfMonth());
+        System.out.println(firstDay);
+        return firstDay.toString();
+    }
+
+    /**
+     * 获取某月最后一天,可查去年(-1去年,0今年,1明年,以此类推)
+     *
+     * @return
+     */
+    public static final int getLastDayOfMonth(int month, int year) {
+        LocalDate localDatew = LocalDate.now().plusYears(year).withMonth(month);
+        //某月的最后一天
+        LocalDate lastDay = localDatew.with(TemporalAdjusters.lastDayOfMonth());
+        return lastDay.getDayOfMonth();
+    }
+
+    /**
+     * 获取某年的开始日期
+     *
+     * @param offset 0今年，1明年，-1去年，依次类推
+     * @return
+     */
+    public static LocalDate getYearStart(int offset) {
+        return LocalDate.now().plusYears(offset).with(TemporalAdjusters.firstDayOfYear());
+    }
+
+    public static String getplusDays(int day) {
+        LocalDate todayDate = LocalDate.now();
+        //当前日期＋1天
+        LocalDate tomorrow = todayDate.plusDays(day);
+        System.out.println(tomorrow);
+        return tomorrow.toString();
+    }
+
+    /**
+     * 生日检查或者账单日检查
+     *
+     * @param pastYear  过去年
+     * @param pastMonth 过去月
+     * @param pastDay   过去日
+     * @param year      当前年
+     * @param month     当前月
+     * @param day       当前日
+     * @return true/false
+     */
+    public static Boolean get(int pastYear, int pastMonth, int pastDay, int year, int month, int day) {
+        LocalDate birthday = LocalDate.of(pastYear, pastMonth, pastDay);
+        MonthDay birthdayMd = MonthDay.of(birthday.getMonth(), birthday.getDayOfMonth());
+        MonthDay today = MonthDay.from(LocalDate.of(year, month, day));
+        System.out.println(today.equals(birthdayMd));
+        return today.equals(birthdayMd);
+    }
+
+    public static void main(String[] args) {
+        LocalDate todayDate = LocalDate.now();
+        //取2016年10月的第1天
+        LocalDate firstDay = todayDate.with(TemporalAdjusters.firstDayOfMonth());
+        System.out.println(firstDay);
+        //当前日期＋1天
+        LocalDate tomorrow = todayDate.plusDays(1);
+        System.out.println(tomorrow);
+    }
+
 }

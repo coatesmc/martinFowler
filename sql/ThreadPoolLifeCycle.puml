@@ -1,0 +1,10 @@
+@startuml
+usercaes --> "初始化"
+note left: 你是啥玩意
+"初始化"--> usercaes
+note right: 你是啥玩意
+hnote over 张三,李四 #red
+左手一只鸡
+end note
+"初始化" --> 李四:我接你抢了
+@enduml

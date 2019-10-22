@@ -1,8 +1,8 @@
 package com.coates.helloservice.common.errors;
 
 import com.coates.helloservice.model.ErrorLogEntity;
+import com.coates.tools.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;

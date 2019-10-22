@@ -1,13 +1,7 @@
 package com.gsg.elasticsearch;
 
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
-
 import com.alibaba.fastjson.JSONObject;
 import com.coates.tools.util.DateUtils;
-import com.google.gson.JsonObject;
 import org.apache.http.HttpHost;
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.DocWriteRequest;
@@ -23,18 +17,16 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.Strings;
-import org.elasticsearch.common.unit.TimeValue;
-import org.elasticsearch.index.query.*;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
-import org.elasticsearch.search.sort.SortBuilders;
-import org.elasticsearch.search.sort.SortOrder;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * @ClassName ElasticsearchClient
@@ -82,6 +74,12 @@ public class ElasticsearchClient {
 
         client.close();
     }
+
+
+
+
+
+
 
     /*
      *//**

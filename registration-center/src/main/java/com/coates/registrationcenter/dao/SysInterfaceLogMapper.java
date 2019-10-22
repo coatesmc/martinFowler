@@ -13,4 +13,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface SysInterfaceLogMapper extends BaseMapper<SysInterfaceLog> {
 
+
+
 }

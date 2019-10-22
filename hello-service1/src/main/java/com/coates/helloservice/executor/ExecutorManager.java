@@ -70,7 +70,10 @@ public class ExecutorManager {
                 TimeUnit.SECONDS,
                 new LinkedBlockingQueue<Runnable>(blockingQueue),
                 new ThreadPoolExecutor.AbortPolicy());
+    }
 
+    public static void main(String[] args) {
+        System.out.println("time: "+ TimeUnit.SECONDS);
     }
 
 
@@ -85,40 +88,6 @@ public class ExecutorManager {
             new Thread(thread).start();
 
         }
-     /*   Thread t = new Thread(() -> {
-            log.debug("监控线程池状态线程启动。。。");
-            while (isRunning) {
-                try {
-                    log.debug("线程池的状态： activeCount = {} ; queueSize = {} , completedTaskCount ={} ; taskCount = {} ; corePoolSize = {} ; " +
-                                    "largestPoolSize = {} ; maximumPoolSize = {} ; poolSize = {} ;",
-                            CACHE_POOL.getActiveCount(),
-                            CACHE_POOL.getQueue().size(),
-                            CACHE_POOL.getCompletedTaskCount(),
-                            CACHE_POOL.getTaskCount(),
-                            CACHE_POOL.getCorePoolSize(),
-                            CACHE_POOL.getLargestPoolSize(),
-                            CACHE_POOL.getMaximumPoolSize(),
-                            CACHE_POOL.getPoolSize()
-                    );
-                    *//*log.debug("线程池的状态：" +
-                            " activeCount = " + +";" +                  //激活的线程数， 此参数 <= 小于等于 最大线程数，  有锁
-                            " queueSize = " + +";" +                   //线程池缓存队列大小
-                            " completedTaskCount = " + CACHE_POOL.getCompletedTaskCount() + ";" +     //已完成任务总数， 此参数 <= 小于等于 任务总数，  有锁
-                            " taskCount = " + CACHE_POOL.getTaskCount() + ";" +                      //任务总数，                                 有锁
-                            " corePoolSize = " + CACHE_POOL.getCorePoolSize() + ";" +                //核心线程数
-                            " largestPoolSize = " + CACHE_POOL.getLargestPoolSize() + ";" +           //线程池支持的最大线程数                        有锁
-                            " maximumPoolSize = " + CACHE_POOL.getMaximumPoolSize() + ";" +          //线程池支持的最大线程数
-                            " poolSize = " + CACHE_POOL.getPoolSize() +
-                            " ;");*//*
-                    //Thread.sleep(1000 * 1);
-                    Thread.sleep(1000 * 60 * 5);
-                } catch (Exception e) {
-                    log.error("监控费线程池状态线程出错", e);
-                }
-            }
-        });
-        t.start();
-        */
     }
 
 

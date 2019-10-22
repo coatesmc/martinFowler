@@ -49,6 +49,4 @@ public class ZuulRouteVO {
 
     private String apiName;
 
-
-
 }

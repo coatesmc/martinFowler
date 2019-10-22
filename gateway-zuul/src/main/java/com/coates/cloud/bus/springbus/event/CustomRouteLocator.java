@@ -17,9 +17,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/*import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;*/
-
 /**
  * @ClassName CubeRouteLocator
  * @Description TODO
@@ -36,7 +33,7 @@ public class CustomRouteLocator extends SimpleRouteLocator implements Refreshabl
     private ZuulProperties properties;
 
 
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+    void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -59,12 +56,10 @@ public class CustomRouteLocator extends SimpleRouteLocator implements Refreshabl
         routeMap.putAll(super.locateRoutes());
         //从redis里面加载请求路径
         routeMap.putAll(locateRoutesFromRedis());
-
         //优化配置
         LinkedHashMap<String, ZuulProperties.ZuulRoute> values = new LinkedHashMap<>();
         for (Map.Entry<String, ZuulProperties.ZuulRoute> entry : routeMap.entrySet()) {
             String path = entry.getKey();
-
             if (!path.startsWith("/")) {
                 path = "/" + path;
             }
@@ -75,10 +70,8 @@ public class CustomRouteLocator extends SimpleRouteLocator implements Refreshabl
                 }
             }
             logger.info("优化过后的数据格式key:{},value:{}", path, entry.getValue());
-
             values.put(path, entry.getValue());
         }
-
         return values;
     }
 
@@ -87,13 +80,11 @@ public class CustomRouteLocator extends SimpleRouteLocator implements Refreshabl
         Map<String, ZuulProperties.ZuulRoute> route = new LinkedHashMap<>();
         Object routeObject = JedisCache.get("route");
         if (StringUtils.isEmpty(routeObject)) {
-            results = jdbcTemplate.query("select * from gateway_api_define where enabled = true",
-                    new BeanPropertyRowMapper<>(ZuulRouteVO.class));
+            results = jdbcTemplate.query("select * from gateway_api_define where enabled = true", new BeanPropertyRowMapper<>(ZuulRouteVO.class));
             JedisCache.set("route", JSON.toJSONString(results));
         } else {
             results = JSON.parseArray(routeObject.toString(), ZuulRouteVO.class);
         }
-
         for (ZuulRouteVO result : results) {
             if (StringUtils.isEmpty(result.getPath())) {
                 continue;
@@ -110,7 +101,6 @@ public class CustomRouteLocator extends SimpleRouteLocator implements Refreshabl
             }
             route.put(zuulRoute.getPath(), zuulRoute);
         }
-
         return route;
     }
 }

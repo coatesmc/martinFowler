@@ -54,6 +54,9 @@ hystrix:
         isolation:
           thread:
             timeout-in-milliseconds: 6000
+  ribbon:
+    ConnectTimeout: 3000
+    ReadTimeout: 60000
 #开启Hystrix
 feign:
   hystrix:
@@ -65,4 +68,3 @@ zuul:
       disable: true
 logging:
   config: classpath:logback-spring.xml
-

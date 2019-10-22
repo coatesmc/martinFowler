@@ -3,6 +3,7 @@ package com.coates.excel;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.metadata.BaseRowModel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
 
@@ -14,6 +15,7 @@ import java.math.BigDecimal;
  * @Version 1.0
  **/
  @Data
+ @EqualsAndHashCode(callSuper = false)
 public class CompanyInFoModel extends BaseRowModel {
     @ExcelProperty(value ="单位名称", index=0)
     private String  companyName;

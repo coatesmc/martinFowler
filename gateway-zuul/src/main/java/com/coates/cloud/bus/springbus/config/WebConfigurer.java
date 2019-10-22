@@ -5,7 +5,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -24,6 +26,17 @@ import java.io.IOException;
 @Configuration
 public class WebConfigurer extends WebMvcConfigurationSupport {
 
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/path-1/**")
+                        .allowedOrigins("https://allowed-origin.com")
+                        .allowedMethods("GET", "POST");
+            }
+        };
+    }
 
     /**
      * 缓存配置
