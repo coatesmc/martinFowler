@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration>
 <configuration >
+
     <!-- 控制台输出 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -48,6 +49,8 @@
     <logger name="org.springframework.web.context.support.StandardServletEnvironment" level="ERROR"/>
     <logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="ERROR"/>
     <logger name="org.springframework.web.cors.DefaultCorsProcessor" level="ERROR"/>
+
+    <conversionRule conversionWord="m" converterClass="com.coates.tools.util.ArgumentJsonFormatLayout"/>
 
     <root level="INFO">
         <appender-ref ref="LOGSTASH" />

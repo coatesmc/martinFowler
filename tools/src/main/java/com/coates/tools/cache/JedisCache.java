@@ -169,6 +169,30 @@ public class JedisCache {
     }
 
     /**
+     * 缓存一个对象 并设置缓存时间
+     *
+     * @param key
+     * @param val
+     * @param expiredSeconds
+     */
+    public static void setRedisObjectPexpireAt(String key, Object val, long expiredSeconds) {
+        if (StringUtils.isEmpty(key) || val == null) {
+            return;
+        }
+        Jedis jedis = getJedis();
+        try {
+            jedis.set(key.getBytes(), SerializeUtil.serialize(val));
+            jedis.pexpireAt(key.getBytes(), expiredSeconds);
+        } catch (Exception e) {
+            logger.error(String.format("setRedisObjectExpired for key [%s] fail : ", key), e);
+        } finally {
+            closeResource(jedis);
+
+        }
+
+    }
+
+    /**
      * 获取Jedis实例
      *
      * @return
