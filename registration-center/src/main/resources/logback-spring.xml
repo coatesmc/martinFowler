@@ -27,12 +27,12 @@
         </encoder>
     </appender>
 
-    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>localhost:4560</destination>
-        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder" index="'loges-'yyyyMMdd">
-            <customFields>{"appname":"index-center"}</customFields>
-        </encoder>
-    </appender>
+    <!-- <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+         <destination>localhost:4560</destination>
+         <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder" index="'loges-'yyyyMMdd">
+             <customFields>{"appname":"index-center"}</customFields>
+         </encoder>
+     </appender>-->
 
     <!-- <appender name="api-async" class="ch.qos.logback.classic.AsyncAppender">
          <appender-ref ref="logstash"/>
@@ -41,15 +41,15 @@
      </appender>-->
 
     <!-- 指定监控那个日志类-->
-    <!--  <logger name="cn.com.pg.sso.monitor.MonitorInterceptor" level="INFO">
-          <appender-ref ref="api-async"/>
-      </logger>
-  -->
+    <logger name="cn.com.pg.sso.monitor.MonitorInterceptor" level="INFO">
+        <appender-ref ref="api-async"/>
+    </logger>
+
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
     <root level="INFO">
-        <appender-ref ref="LOGSTASH" />
-        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="LOGSTASH"/>
+        <appender-ref ref="CONSOLE"/>
     </root>
 
 </configuration>

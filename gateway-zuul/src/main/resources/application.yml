@@ -25,15 +25,27 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 
-
-jedis:
-  address: 127.0.0.1
+redis:
+  host: 127.0.0.1
   port: 6379
-  auth:
-  maxIdle: 100
-  maxActive: 300
-  maxWait: 10000
+  database: 0
+  maxIdle: 400
+  maxTotal: 6000
+  maxWaitMillis: 1000
+  blockWhenExhausted: true
   testOnBorrow: true
+  timeout: 100000
+  defaultCacheExpireTime: 60
+
+#
+#jedis:
+#  address: 127.0.0.1
+#  port: 6379
+#  auth:
+#  maxIdle: 100
+#  maxActive: 300
+#  maxWait: 10000
+#  testOnBorrow: true
 # \u6DFB\u52A0ribbon\u7684\u8D85\u65F6\u65F6\u95F4\u8BBE\u7F6E
 ribbon:
   eureka:
@@ -61,6 +73,15 @@ hystrix:
 feign:
   hystrix:
     enabled: true
+  compression:
+    request:
+      enabled: true
+      mime-types[0]: text/xml
+      mime-types[1]: application/xml
+      mime-types[2]: application/json
+      min-request-size: 2048
+    response:
+      enabled: true
 ##限流服务
 zuul:
   SendErrorFilter:

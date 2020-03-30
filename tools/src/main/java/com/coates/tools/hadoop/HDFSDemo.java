@@ -2,13 +2,14 @@ package com.coates.tools.hadoop;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.fs.*;
 import org.apache.hadoop.io.IOUtils;
 import org.apache.hadoop.util.Progressable;
 
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 
 /**
  * @ClassName HDFSDemo
@@ -19,75 +20,141 @@ import java.net.URISyntaxException;
  **/
 public class HDFSDemo {
 
-    public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException {
-        Configuration config = new Configuration();
-        config.set("fs.defaultFS", "hdfs://node01:9000");
-          String fileUrl = "C:\\Users\\Administrator\\Desktop\\线上数据备份\\company_b.zip";
-        //Job job = Job
-        //createMkdirs(config);
-        //uploadFile(config,fileUrl);
-        testDownload(config,fileUrl);
+    private static FileSystem fs = null;
+    private static Configuration config = null;
 
+    static {
+        try {
+            config = new Configuration();
+            config.set("fs.defaultFS", "hdfs://master:9000");
+            fs = FileSystem.get(new URI("hdfs://master:9000"), config, "root");
+        } catch (IOException | InterruptedException | URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
-    //创建目录
-    private static void createMkdirs(Configuration config) throws IOException, InterruptedException, URISyntaxException {
-        FileSystem fs = FileSystem.get(new URI("hdfs://node01:9000"), config, "root");
+    public static void main(String[] args) throws Exception {
+        String fileUrl = "C:\\Users\\Administrator\\Desktop\\test.txt";
+        //Job job = Job
+        //createMkdirs();
+        //uploadFile(config,fileUrl);
+        //testDownload();
+        //testReadData();
+        //estLs();
+        //testRandomReadData();
+        deleteFile("/test.txt");
+    }
+
+
+    /**
+     * 创建目录
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws URISyntaxException
+     */
+    private static void createMkdirs() throws IOException, InterruptedException, URISyntaxException {
         boolean mkdirs = fs.mkdirs(new Path("/testOne"));
         System.out.println(mkdirs);
     }
 
     /**
      * 上传文件
-     * @param config
+     *
      * @param fileUrl
      * @throws IOException
      * @throws URISyntaxException
      * @throws InterruptedException
      */
-    private static void uploadFile(Configuration config,String fileUrl) throws IOException, URISyntaxException, InterruptedException {
-        FileSystem fs = FileSystem.get(new URI("hdfs://node01:9000"), config, "root");
+    private static void uploadFile(String fileUrl) throws IOException, URISyntaxException, InterruptedException {
         InputStream in = new FileInputStream(fileUrl);
-        OutputStream outputStream = fs.create(new Path("/testOne/upload"), new Progressable(){
+        OutputStream outputStream = fs.create(new Path("/test.txt"), new Progressable() {
             @Override
             public void progress() {
                 System.out.println("上传完一个设定缓存区大小容量的文件！");
             }
         });
-        IOUtils.copyBytes(in,outputStream,config);
-         /*byte[] buffer = new byte[1024];
-        int len = 0;
-		while((len=in.read(buffer))>0){
-			out.write(buffer, 0, len);
-		}
-		out.flush();
-		in.close();
-		out.close();*/
-
+        IOUtils.copyBytes(in, outputStream, config);
     }
 
-    public static void testDownload(Configuration config,String fileUrl) throws IOException, InterruptedException, URISyntaxException {
-        FileSystem fs = FileSystem.get(new URI("hdfs://node01:9000"), config, "root");
-//		InputStream in = new FileInputStream("e:\\hadoop.avi");
-//		OutputStream out = fs.create(new Path("/demo/b.avi"));
-        InputStream in = fs.open(new Path("/testOne/upload/company_b.zip"));
-        FileOutputStream out = new FileOutputStream("E:\\company_b.zip");
-        IOUtils.copyBytes(in, out, 2048);
-
-      /*byte[] buffer = new byte[1024];
-		int len = 0;
-		while((len=in.read(buffer))>0){
-			out.write(buffer, 0, len);
-		}
-		out.flush();
-		in.close();
-		out.close();*/
+    /**
+     * 下载文件
+     *
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws URISyntaxException
+     */
+    public static void testDownload() throws IOException, InterruptedException, URISyntaxException {
+        //如果为null,重启myeclipse/eclipse即可
+        System.out.println(System.getenv("HADOOP_HOME"));
+        fs.copyToLocalFile(new Path("/测试/apache-maven-3.6.3-bin.tar.gzip"), new Path("d:/apache-maven-3.6.3-bin.tar.gzip"));
+        fs.close();
     }
 
+    /**
+     * 获取文件内容
+     *
+     * @throws URISyntaxException
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public static void testReadData() throws URISyntaxException, IOException, InterruptedException {
+        FSDataInputStream in = fs.open(new Path("/test.txt"));//hdfs自带流打开文件
+        BufferedReader br = new BufferedReader(new InputStreamReader(in, "utf-8"));//读入流并放在缓冲区
+        String line = null;
+        while ((line = br.readLine()) != null) {
+            System.out.println(line);
+        }
 
-    private static void createDataSource(Configuration config) throws IOException {
-
+        in.close();
+        br.close();
+        fs.close();
     }
 
+    /**
+     * 获取文件信息 ls
+     * @throws IOException
+     */
+    public static void testLs() throws IOException {
+        RemoteIterator<LocatedFileStatus> listFiles = fs.listFiles(new Path("/"), true);
+        while (listFiles.hasNext()) {
+            LocatedFileStatus status = listFiles.next();
+            System.out.println("路径：" + status.getPath());
+            System.out.println("块大小：" + status.getBlockSize());
+            System.out.println("文件长度：" + status.getLen());
+            System.out.println("副本数:" + status.getReplication());
+            System.out.println("块的位置信息：" + Arrays.toString(status.getBlockLocations()) + "\n");
+        }
+        fs.close();
+    }
+
+    /**
+     * 读取hdfs文件内容
+     * @throws IOException
+     */
+    public static void testRandomReadData() throws IOException {
+        FSDataInputStream in = fs.open(new Path("/test.txt"));
+        in.seek(3);
+        byte[] buf = new byte[16];
+        in.read(buf);
+        System.out.println(new String(buf));
+        in.close();
+        fs.close();
+    }
+
+    /**
+     * 删除文件
+     *
+     * @param fileName
+     * @throws IOException
+     */
+    public static void deleteFile(String fileName) throws IOException {
+        Path f = new Path(fileName);
+        boolean isExists = fs.exists(f);
+        if (isExists) { // if exists, delete
+            boolean isDel = fs.delete(f, true);
+        } else {
+            System.out.println(fileName + "  exist? " + isExists);
+        }
+    }
 
 }
